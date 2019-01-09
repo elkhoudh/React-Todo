@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import TodoList from "./components/TodoComponents/TodoList";
 import TodoForm from "./components/TodoComponents/TodoForm";
+import NavBar from "./components/NavBar/NavBar";
+import "./App.css";
 class App extends Component {
   state = {
     todo: [
@@ -24,6 +26,9 @@ class App extends Component {
 
   addTodo = e => {
     e.preventDefault();
+    if (this.state.newTodo.length === 0) {
+      return;
+    }
     this.setState({
       todo: [
         ...this.state.todo,
@@ -55,7 +60,15 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
+        <NavBar />
+        <br />
+        <TodoForm
+          handleChange={this.handleChange}
+          newTodo={this.state.newTodo}
+          addTodo={this.addTodo}
+          clearTodos={this.clearTodos}
+        />
         {this.state.todo.length === 0
           ? "NO TODOS FOUND"
           : this.state.todo.map((todo, i) => (
@@ -65,13 +78,6 @@ class App extends Component {
                 handleCompleted={this.handleCompleted}
               />
             ))}
-
-        <TodoForm
-          handleChange={this.handleChange}
-          newTodo={this.state.newTodo}
-          addTodo={this.addTodo}
-          clearTodos={this.clearTodos}
-        />
       </div>
     );
   }
