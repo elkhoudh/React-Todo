@@ -28,7 +28,7 @@ const TodoForm = props => {
   const { classes } = props;
 
   return (
-    <form>
+    <form onSubmit={props.addTodo}>
       <TextField
         id="standard-name"
         label="Enter Todo"
