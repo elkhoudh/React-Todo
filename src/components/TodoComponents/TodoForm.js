@@ -33,10 +33,10 @@ const TodoForm = props => {
         id="standard-name"
         label="Enter Todo"
         className={classes.textField}
-        value={props.newTodo}
+        value={props.task}
         onChange={props.handleChange}
         margin="normal"
-        name="newTodo"
+        name="task"
       />
       <Button
         onClick={props.addTodo}

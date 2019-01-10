@@ -19,7 +19,7 @@ const TodoList = props => {
     <Paper className={classes.root} elevation={1}>
       <p
         className={props.todo.completed ? "line list" : "list"}
-        onClick={e => props.handleCompleted(e, props.todo.id)}
+        onClick={e => props.handleCompleted(e, props.todo._id)}
       >
         {props.todo.task}
       </p>

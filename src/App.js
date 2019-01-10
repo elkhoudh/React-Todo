@@ -6,7 +6,17 @@ import "./App.css";
 class App extends Component {
   state = {
     todo: [],
-    newTodo: ""
+    task: ""
+  };
+
+  componentDidMount = () => {
+    fetch("https://comptagroup.com/api/todos")
+      .then(res => res.json())
+      .then(todo => {
+        if (todo.message) alert("Failed to get todos");
+
+        this.setState({ todo });
+      });
   };
 
   handleChange = e => {
@@ -15,44 +25,67 @@ class App extends Component {
 
   addTodo = e => {
     e.preventDefault();
-    if (this.state.newTodo.length === 0) {
-      return;
-    }
-    this.setState({
-      todo: [
-        ...this.state.todo,
-        {
-          task: this.state.newTodo,
-          id: Date.now(),
-          completed: false
-        }
-      ],
-      newTodo: ""
-    });
+    !this.state.task
+      ? null
+      : fetch("https://comptagroup.com/api/todos", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.state)
+        })
+          .then(res => res.json())
+          .then(todo => this.setState({ todo, task: "" }));
+    // if (this.state.task.length === 0) {
+    //   return;
+    // }
+    // this.setState({
+    //   todo: [
+    //     ...this.state.todo,
+    //     {
+    //       task: this.state.task,
+    //       id: Date.now(),
+    //       completed: false
+    //     }
+    //   ],
+    //   task: ""
+    // });
   };
 
   clearTodos = e => {
     e.preventDefault();
-    const filteredCompleted = this.state.todo.filter(
-      todo => todo.completed !== true
-    );
-
-    this.setState({ todo: filteredCompleted });
+    fetch("https://comptagroup.com/api/todos/clearcompleted")
+      .then(res => res.json())
+      .then(todo => this.setState({ todo }));
   };
 
   handleCompleted = (e, i) => {
-    this.setState({
-      todo: this.state.todo.map(todo => {
-        if (i !== todo.id) {
-          return todo;
-        } else {
-          return {
-            ...todo,
-            completed: !todo.completed
-          };
-        }
-      })
-    });
+    this.setState(
+      {
+        todo: this.state.todo.map(todo => {
+          if (i !== todo._id) {
+            return todo;
+          } else {
+            return {
+              ...todo,
+              completed: !todo.completed
+            };
+          }
+        })
+      },
+      () =>
+        fetch(`https://comptagroup.com/api/todos/update/${i}`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.state)
+        })
+          .then(res => res.json())
+          .then(todo => this.setState({ todo }))
+    );
   };
 
   render() {
@@ -62,7 +95,7 @@ class App extends Component {
         <br />
         <TodoForm
           handleChange={this.handleChange}
-          newTodo={this.state.newTodo}
+          task={this.state.task}
           addTodo={this.addTodo}
           clearTodos={this.clearTodos}
         />
