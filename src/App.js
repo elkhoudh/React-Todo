@@ -41,10 +41,18 @@ class App extends Component {
   };
 
   handleCompleted = (e, i) => {
-    const clickedOn = this.state.todo
-      .filter(todo => todo.id === i)
-      .map(task => (task.completed = !task.completed));
-    this.setState({ todo: [...this.state.todo, clickedOn] });
+    this.setState({
+      todo: this.state.todo.map(todo => {
+        if (i !== todo.id) {
+          return todo;
+        } else {
+          return {
+            ...todo,
+            completed: !todo.completed
+          };
+        }
+      })
+    });
   };
 
   render() {
