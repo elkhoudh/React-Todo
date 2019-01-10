@@ -59,7 +59,7 @@ class App extends Component {
           clearTodos={this.clearTodos}
         />
         {this.state.todo.length === 0 ? (
-          <p style={{ padding: "20px 0", fontSize: "20px" }}>NO TODOS FOUND</p>
+          <p style={{ padding: "20px 0", fontSize: "2rem" }}>NO TODOS FOUND</p>
         ) : (
           this.state.todo.map((todo, i) => (
             <TodoList
