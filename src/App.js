@@ -5,18 +5,7 @@ import NavBar from "./components/NavBar/NavBar";
 import "./App.css";
 class App extends Component {
   state = {
-    todo: [
-      {
-        task: "Organize Garage",
-        id: 1528817077286,
-        completed: false
-      },
-      {
-        task: "Bake Cookies",
-        id: 1528817084358,
-        completed: false
-      }
-    ],
+    todo: [],
     newTodo: ""
   };
 
@@ -69,15 +58,17 @@ class App extends Component {
           addTodo={this.addTodo}
           clearTodos={this.clearTodos}
         />
-        {this.state.todo.length === 0
-          ? "NO TODOS FOUND"
-          : this.state.todo.map((todo, i) => (
-              <TodoList
-                key={i}
-                todo={todo}
-                handleCompleted={this.handleCompleted}
-              />
-            ))}
+        {this.state.todo.length === 0 ? (
+          <p style={{ padding: "20px 0", fontSize: "20px" }}>NO TODOS FOUND</p>
+        ) : (
+          this.state.todo.map((todo, i) => (
+            <TodoList
+              key={i}
+              todo={todo}
+              handleCompleted={this.handleCompleted}
+            />
+          ))
+        )}
       </div>
     );
   }
