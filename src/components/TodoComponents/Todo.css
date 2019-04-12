@@ -1,0 +1,9 @@
+.line {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.list {
+  font-size: 2rem;
+  padding: 10px 0;
+}
